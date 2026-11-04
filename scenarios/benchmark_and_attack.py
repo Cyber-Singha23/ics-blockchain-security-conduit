@@ -1,3 +1,5 @@
+from pathlib import Path
+ROOT_DIR = Path(__file__).resolve().parent.parent
 import csv
 import hashlib
 import json
@@ -13,7 +15,7 @@ GATEWAY_PORT = 5021
 HOST = "127.0.0.1"
 
 w3 = Web3(Web3.HTTPProvider("http://127.0.0.1:8545"))
-with open("contract_config.json", "r") as f:
+with open(str(ROOT_DIR / "gateway" / "contract_config.json"), "r") as f:
     config = json.load(f)
 contract = w3.eth.contract(address=config["contract_address"], abi=config["abi"])
 
@@ -115,7 +117,7 @@ for _ in range(8):
 onchain_root = contract.functions.getMerkleRoot(0).call()
 print(f"[+] On-Chain Merkle Root (Batch #0): 0x{onchain_root.hex()}")
 
-with open("sensor_logs.csv", "r") as f:
+with open(str(ROOT_DIR / "assets" / "sensor_logs.csv"), "r") as f:
     rows = list(csv.DictReader(f))
 leaves = [r["canonical_string"] for r in rows if int(r["batch_id"]) == 0]
 
@@ -200,7 +202,7 @@ for i, (label_text, dy, va_align) in enumerate(point_labels):
 ax.grid(True, linestyle=":", linewidth=1.2, alpha=0.7)
 ax.legend(loc="upper right", fontsize=12, framealpha=0.95)
 plt.tight_layout()
-plt.savefig("rq3_trust_and_integrity.png", dpi=300)
+plt.savefig(str(ROOT_DIR / "assets" / "rq3_trust_and_integrity.png"), dpi=300)
 plt.close()
 
 # 2. RQ1 Latency Comparison Graph (Plain Millisecond Labels)
@@ -244,7 +246,7 @@ for bar, val in zip(bars, means):
 ax.grid(True, which="major", axis="y", linestyle=":", linewidth=1.2, alpha=0.7)
 ax.legend(loc="upper left", fontsize=12, framealpha=0.95)
 plt.tight_layout()
-plt.savefig("rq1_latency_comparison.png", dpi=300)
+plt.savefig(str(ROOT_DIR / "assets" / "rq1_latency_comparison.png"), dpi=300)
 plt.close()
 
 print("\n[+] Saved high-resolution, readable report charts:")

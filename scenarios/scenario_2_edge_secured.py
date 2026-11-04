@@ -1,3 +1,5 @@
+from pathlib import Path
+ROOT_DIR = Path(__file__).resolve().parent.parent
 import json
 import socket
 import struct
@@ -19,7 +21,7 @@ C_DIM    = "\033[90m"
 def init_and_reset_blockchain_state():
     """Ensures Unit 1 & Unit 2 start with clean Trust=100 before running Scenario 2."""
     w3 = Web3(Web3.HTTPProvider(GANACHE_URL))
-    with open("contract_config.json", "r") as f:
+    with open(str(ROOT_DIR / "gateway" / "contract_config.json"), "r") as f:
         cfg = json.load(f)
     contract = w3.eth.contract(address=cfg["contract_address"], abi=cfg["abi"])
     acct_map = cfg.get("accounts", cfg.get("unit_map", {}))

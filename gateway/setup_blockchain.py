@@ -1,3 +1,5 @@
+from pathlib import Path
+ROOT_DIR = Path(__file__).resolve().parent.parent
 import json
 import solcx
 from web3 import Web3
@@ -80,7 +82,7 @@ contract IIoTAssurance {
 }
 """
 
-with open("IIoTAssurance.sol", "w") as f:
+with open(str(ROOT_DIR / "contracts" / "IIoTAssurance.sol"), "w") as f:
     f.write(contract_source.strip())
 
 print("[*] Compiling IIoTAssurance.sol...")
@@ -125,7 +127,7 @@ config = {
         "3": rogue_acct
     }
 }
-with open("contract_config.json", "w") as f:
+with open(str(ROOT_DIR / "gateway" / "contract_config.json"), "w") as f:
     json.dump(config, f, indent=2)
 
 print("[+] Saved contract_config.json successfully!")

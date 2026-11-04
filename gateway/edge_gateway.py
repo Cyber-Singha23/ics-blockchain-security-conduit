@@ -1,3 +1,5 @@
+from pathlib import Path
+ROOT_DIR = Path(__file__).resolve().parent.parent
 import csv
 import hashlib
 import json
@@ -11,10 +13,10 @@ GATEWAY_HOST = "127.0.0.1"
 GATEWAY_PORT = 5021
 PLC_HOST = "127.0.0.1"
 PLC_PORT = 5020
-LOG_FILE = "sensor_logs.csv"
+LOG_FILE = str(ROOT_DIR / "assets" / "sensor_logs.csv")
 
 w3 = Web3(Web3.HTTPProvider("http://127.0.0.1:8545"))
-with open("contract_config.json", "r") as f:
+with open(str(ROOT_DIR / "gateway" / "contract_config.json"), "r") as f:
     config = json.load(f)
 
 contract = w3.eth.contract(address=config["contract_address"], abi=config["abi"])

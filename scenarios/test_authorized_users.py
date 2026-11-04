@@ -1,3 +1,5 @@
+from pathlib import Path
+ROOT_DIR = Path(__file__).resolve().parent.parent
 import json
 import socket
 import struct
@@ -8,7 +10,7 @@ HOST = "127.0.0.1"
 
 # Connect to Ganache and load contract config
 w3 = Web3(Web3.HTTPProvider("http://127.0.0.1:8545"))
-with open("contract_config.json", "r") as f:
+with open(str(ROOT_DIR / "gateway" / "contract_config.json"), "r") as f:
     config = json.load(f)
 
 contract = w3.eth.contract(address=config["contract_address"], abi=config["abi"])
